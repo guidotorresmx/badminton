@@ -53,8 +53,16 @@ def response_transform(response_places):
 
 
     """
-
-    return pd.json_normalize(response_places)
+    response_datatframe = pd.json_normalize(response_places)
+    dtypes = {
+        'Name': 'string',
+        'Address': 'string',
+        'Phone': 'string',
+        'District': 'string',
+        'X': 'float',
+        'Y': 'float'
+    }
+    return response_datatframe.astype(dtypes)
 
 
 def get_centres():
