@@ -1,5 +1,7 @@
 """
-#TODO: add erroro handling
+#TODO:
+    - add error handling
+    - envs from config file
 """
 
 import requests
@@ -55,6 +57,19 @@ def response_transform(response_places):
     return pd.json_normalize(response_places)
 
 
-response_raw = request_get(URL_DOMAIN + URL_DIR)
-response_places = response_preprocess(response_raw)
-response_datatframe = response_transform(response_places)
+def get_centres():
+    """
+    executes the following stages:
+        1. create request to toronto data park`s site
+        2. data selection (json)
+        3. data tranformation to pandas df
+
+    """
+    response_raw = request_get(URL_DOMAIN + URL_DIR)
+    response_places = response_preprocess(response_raw)
+    response_datatframe = response_transform(response_places)
+    return response_datatframe
+
+
+if __name__ == '__main__':
+    centres_df = get_centres()
