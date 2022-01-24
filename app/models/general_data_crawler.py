@@ -1,7 +1,7 @@
 """
-#TODO:
-    - add error handling
-    - envs from config file
+    #TODO:
+        - add error handling
+        - envs from config file
 """
 
 import requests
@@ -13,9 +13,8 @@ import pandas as pd
 URL_DOMAIN = 'https://www.toronto.ca/'
 URL_DIR = 'data/parks/live/locations/centres.json'
 
+
 # @retry((ValueError, TypeError), delay=1, backoff=2, max_delay=4)
-
-
 def request_get(url):
     """
     Get the html from a given url.
@@ -35,7 +34,8 @@ def response_preprocess(response_raw):
 
 def response_transform(response_places):
     """
-    After getting a response in json of the format:
+    input:
+        After getting a response in json of the format:
         {    'ID': 111,
              'Name': 'Evergreen Street',
              'Address': 'string',
@@ -44,7 +44,7 @@ def response_transform(response_places):
              'X': 'string',
              'Y': 'string'
         }
-    into:
+    output:
         | ID   | Name       | Address        | Phone | District | X    | Y   |
         ----------------------------------------------------------------------
         |      | Sample     |                | 111   | Sample   |      |     |
