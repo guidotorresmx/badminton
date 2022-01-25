@@ -8,7 +8,6 @@ import pandas as pd
 
 from general_data_crawler import get_centres
 
-CENTRE_URL = 'https://www.toronto.ca/data/parks/prd/facilities/complex/3643/index.html'
 CENTRE_URL = 'https://www.toronto.ca/data/parks/prd/facilities/complex/__route__/index.html'
 
 
@@ -37,8 +36,10 @@ def data_preprocess(html_doc):
     data transform
     """
     soup = BeautifulSoup(html_doc, 'html.parser')
-    html_table = soup.find_all(class_="catdropintbl")
-    return html_table
+    html_tables = soup.find_all(class_="catdropintbl")
+    for html_tables_element in html_tables:
+        html_tables_element = html_tables_element.find('tr').decompose()
+    return html_tables
 
 
 def data_saver(html_tables, id):
@@ -53,21 +54,31 @@ def data_saver(html_tables, id):
             file.write(html_output)
 
 
-def data_transform_html_to_df():
+def data_transform_html_to_df(html_tables):
     """
     transform html table to pandas dataframes
         input:
 
     """
+    html_tables
+    df = pd.read_html(str(table), displayed_only=False)
 
 
-centres_df = get_centres()
-#centre = centres_df.tail(1)
-for index, centre in centres_df.iterrows():
-    id = str(int(centre['ID']))
-    html_raw = data_request_html(centre, id)
-    html_tables = data_preprocess(html_raw)
-    data_saver(html_tables, id)
+def data_extraction():
+    #centres_df = get_centres()
+    centres_df = get_centres().tail(1)
+
+    #centre = centres_df.tail(1)
+    html_tables = []
+    for index, centre in centres_df.iterrows():
+        id = str(int(centre['ID']))
+        html_raw = data_request_html(centre, id)
+        html_tables = data_preprocess(html_raw)
+        data_saver(html_tables, id)
+
+
+if __name__ == '__main__':
+    data_extraction()
 
 
 #df_table = data_transform_html_to_df()

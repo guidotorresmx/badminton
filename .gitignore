@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Templates and data exploration
+
+app/models/data/*.html
