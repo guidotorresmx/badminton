@@ -60,8 +60,14 @@ def data_transform_html_to_df(html_tables):
         input:
 
     """
-    html_tables
-    df = pd.read_html(str(table), displayed_only=False)
+    df_tables = []
+    # html_tables[1:] ignores the first element extracted form html tables
+    # it creates a multple header table with no useful extra information
+    # further investigation may be needed in order to prevent buggy behaviour
+    for html_table in html_tables[1:]:
+        html_table_str = str(html_table)
+        df_tables.append(pd.read_html(html_table_str, displayed_only=False))
+    return df_tables
 
 
 def data_extraction():
@@ -74,8 +80,12 @@ def data_extraction():
         id = str(int(centre['ID']))
         html_raw = data_request_html(centre, id)
         html_tables = data_preprocess(html_raw)
+        df_tables = data_transform_html_to_df(html_tables)
         data_saver(html_tables, id)
 
+
+len(df_tables)
+df_tables[1][0]
 
 if __name__ == '__main__':
     data_extraction()
