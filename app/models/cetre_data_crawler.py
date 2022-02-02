@@ -8,6 +8,13 @@ import pandas as pd
 from datetime import datetime as dt
 from general_data_crawler import get_centres
 
+from loguru import logger
+import sys
+
+logger.add(sys.stderr, format="{time} {level} {message}", level="DEBUG")
+logger.add("file.log", format="{time} {level} {message}", level="DEBUG")
+logger.debug("Logging from centre data crawler submodule")
+
 CENTRE_URL = 'https://www.toronto.ca/data/parks/prd/facilities/complex/__route__/index.html'
 
 
