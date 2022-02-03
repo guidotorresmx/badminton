@@ -6,14 +6,14 @@ import json
 import retry
 import pandas as pd
 from datetime import datetime as dt
-from general_data_crawler import get_centres
+try:
+    from general_data_crawler import get_centres
+except:
+    from models.general_data_crawler import get_centres
 
 from loguru import logger
 import sys
 
-logger.add(sys.stderr, format="{time} {level} {message}", level="DEBUG")
-logger.add("file.log", format="{time} {level} {message}", level="DEBUG")
-logger.debug("Logging from centre data crawler submodule")
 
 CENTRE_URL = 'https://www.toronto.ca/data/parks/prd/facilities/complex/__route__/index.html'
 
@@ -64,10 +64,10 @@ def data_saver(html_tables, id):
 # TODO: delete extra functions and extra dependencies
 
 
-def weekly_tables_preprocess(df):
-    def get_week_id(week_df):
-        week_df
-    for weekly_df in weekly_dfs:
+# def weekly_tables_preprocess(df):
+#    def get_week_id(week_df):
+#        week_df
+#    for weekly_df in weekly_dfs:
 
 
 def data_transform_html_to_df(html_tables):
@@ -116,7 +116,7 @@ def rawdate_to_datetime_array(raw_date_array):
     return datetime_out
 
 
-def data_extraction():
+def get_data():
     # centres_df = get_centres()
     centres_df = get_centres().tail(1)
 
@@ -140,7 +140,7 @@ def data_extraction():
 
 
 if __name__ == '__main__':
-    data_extraction()
+    get_data()
 
 
 # df_table = data_transform_html_to_df()
