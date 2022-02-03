@@ -6,6 +6,7 @@ search_params = {
     'postal_code': ['9000'],
     'distance': [''],
     'age_group ': [''],
+    'date': "03-02-2022"
 }
 
 globals = {

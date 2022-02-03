@@ -1,3 +1,4 @@
+# TODO: delete extra functions and extra dependencies
 # TODO: paralelize centres extraction
 # get category and week for whole dataframe from config.py
 import requests
@@ -8,21 +9,25 @@ import pandas as pd
 from datetime import datetime as dt
 try:
     from general_data_crawler import get_centres
+    from config import search_params
 except:
     from models.general_data_crawler import get_centres
+    from config import search_params
 
 from loguru import logger
 import sys
 
 
 CENTRE_URL = 'https://www.toronto.ca/data/parks/prd/facilities/complex/__route__/index.html'
+CATEGORY = "sports"
+ACTIVITY = "badminton"
 
 
 def data_request_html(centre, id):
     """
     Get html data from specific centre.
     """
-    print("data request html " + id)
+    logger.debug("data request html " + id)
     url = CENTRE_URL.replace('__route__', id)
     response = requests.get(url)
     return response.text
@@ -47,6 +52,10 @@ def data_preprocess(html_doc):
     html_tables = soup.find_all(class_="catdropintbl")
     for html_tables_element in html_tables:
         html_tables_element = html_tables_element.find('tr').decompose()
+
+    elements_hr = soup.find('hr')
+    for element in elements_hr:
+        element.replace_with(' === ')
     return html_tables
 
 
@@ -60,14 +69,6 @@ def data_saver(html_tables, id):
         print(f"data/output${id}-${i}.html")
         with open(f"data/output${id}-${i}.html", "wb") as file:
             file.write(html_output)
-
-# TODO: delete extra functions and extra dependencies
-
-
-# def weekly_tables_preprocess(df):
-#    def get_week_id(week_df):
-#        week_df
-#    for weekly_df in weekly_dfs:
 
 
 def data_transform_html_to_df(html_tables):
@@ -121,7 +122,7 @@ def get_data():
     centres_df = get_centres().tail(1)
 
     html_tables = []
-    centre = centres_df.head(1)
+    #centre = centres_df.head(1)
     df_tables = {}
     for index, centre in centres_df.iterrows():
         id = str(int(centre['ID']))
@@ -130,17 +131,20 @@ def get_data():
         df_tables = data_transform_html_to_df(html_tables)
         # data_saver(html_tables, id)
 
-    for index in range(len(df_tables["sports"])):
-        columns = df_tables["sports"][index].columns
+    for index in range(len(df_tables[CATEGORY])):
+        columns = df_tables[CATEGORY][index].columns
         columns_dates = columns[1:]
         columns_dates = rawdate_to_datetime_array(columns_dates)
         print(columns_dates)
-        df_tables["sports"][index].columns = pd.Index([columns[0]] + columns_dates)
-    return df_tables["sports"][0]
+        df_tables[CATEGORY][index].columns = pd.Index([columns[0]] + columns_dates)
+    return df_tables[CATEGORY][0]
+
+
+def init():
 
 
 if __name__ == '__main__':
-    get_data()
-
-
+    df = get_data()
+    df[df.columns[2]][2]
+    df.columns[2]
 # df_table = data_transform_html_to_df()
