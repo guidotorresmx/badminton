@@ -10,7 +10,8 @@ search_params = {
 }
 
 globals = {
-    'search_params': search_params
+    'search_params': search_params,
+    'URLs': URLs
 }
 
 logger_options = {
@@ -19,6 +20,12 @@ logger_options = {
     "colorize": True,
     "backtrace": True,
     "diagnose": True
+}
+
+URLs = {
+    "CENTRE_URL": 'https://www.toronto.ca/data/parks/prd/facilities/complex/__route__/index.html',
+
+
 }
 
 

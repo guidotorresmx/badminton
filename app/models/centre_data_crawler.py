@@ -48,14 +48,18 @@ def data_preprocess(html_doc):
     """
     data transform
     """
+    #html_doc = html_raw
+
     soup = BeautifulSoup(html_doc, 'html.parser')
+
+    elements_hr = soup.find_all('hr')
+    for element in elements_hr:
+        element = element.replace_with(' & ')
+
     html_tables = soup.find_all(class_="catdropintbl")
     for html_tables_element in html_tables:
         html_tables_element = html_tables_element.find('tr').decompose()
 
-    elements_hr = soup.find('hr')
-    for element in elements_hr:
-        element.replace_with(' === ')
     return html_tables
 
 
@@ -140,11 +144,6 @@ def get_data():
     return df_tables[CATEGORY][0]
 
 
-def init():
-
-
 if __name__ == '__main__':
     df = get_data()
-    df[df.columns[2]][2]
-    df.columns[2]
-# df_table = data_transform_html_to_df()
+    df[df['Program'].str.contains(ACTIVITY, case=False)]
