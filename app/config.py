@@ -24,8 +24,15 @@ logger_options = {
 
 URLs = {
     "CENTRE_URL": 'https://www.toronto.ca/data/parks/prd/facilities/complex/__route__/index.html',
+}
 
-
+show_options = {
+    terminal: True,
+    powershell: True,
+    web: True,
+    excel: True,
+    csv: True,
+    drive: True
 }
 
 

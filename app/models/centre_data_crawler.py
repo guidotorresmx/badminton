@@ -144,6 +144,10 @@ def get_data():
     return df_tables[CATEGORY][0]
 
 
+def filter_data(df):
+    return df[df['Program'].str.contains(ACTIVITY, case=False)]
+
+
 if __name__ == '__main__':
-    df = get_data()
-    df[df['Program'].str.contains(ACTIVITY, case=False)]
+    activities_df = get_data()
+    activities_df = filter_data(activities_df)
