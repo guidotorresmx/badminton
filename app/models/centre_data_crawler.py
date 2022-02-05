@@ -151,3 +151,4 @@ def filter_data(df):
 if __name__ == '__main__':
     activities_df = get_data()
     activities_df = filter_data(activities_df)
+    activities_df.to_html()

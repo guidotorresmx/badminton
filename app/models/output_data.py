@@ -15,6 +15,14 @@ def show_data(data, options):
         show_excel(data, options)
 
 
-def show_terminal(data):
-    print(tabulate(df))
-    print(df.to_markdown())
+def show_terminal(data, options):
+    print(tabulate(data))
+    print(data.to_markdown())
+
+
+def show_powershell(data, options):
+    show_terminal(data, options)
+
+
+def show_web(data, options):
+    data.to_html()
